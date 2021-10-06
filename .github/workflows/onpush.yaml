@@ -21,7 +21,7 @@ jobs:
       DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: Inject slug/short variables
         uses: rlespinasse/github-slug-action@v3.x
