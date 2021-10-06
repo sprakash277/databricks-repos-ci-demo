@@ -1,8 +1,11 @@
 name: PR pipeline
 
 on:
-  pull_request:
-    types: [opened, synchronize]
+  push:
+    branches:
+      - '**'
+    tags-ignore:
+      - 'v*' # this tag type is used for release pipelines
 
 jobs:
   test-pipeline:
