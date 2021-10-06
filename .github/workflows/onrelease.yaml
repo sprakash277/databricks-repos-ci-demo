@@ -40,18 +40,25 @@ jobs:
 
       - name: Install dependencies
         run: pip install -U -r dev-requirements.txt
+       
+      - uses: peterjgrainger/action-create-branch@v2.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          branch: release
       
-      - name: Bump version and push tag
-      	uses: TriPSs/conventional-changelog-action@master
-      	with:
-        	GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        	git-message: 'release: {version}'
-        	preset: 'angular'
-        	tag-prefix: ''
-        	output-file: 'CHANGELOG.md'
+      - name: Bump Release
+        shell: bash
+        run: make bump-release-and-push
+
+      - name: Set variables
+        id: vars
+        run: |
+          echo ::set-output name=version::$(make version)
+          echo ::set-output name=modules::$(make list-modules-json)
 
       - name: Release Code to Production
-        run: databricks repos update --path=/Repos/Production/databricks-repos-ci-demo --branch=release-${{ env.GITHUB_REF_SLUG }}
+        run: databricks repos update --path=/Repos/Production/databricks-repos-ci-demo --branch=${{ env.GITHUB_REF_SLUG }}
 
       - name: Deploy the job
         run: |
