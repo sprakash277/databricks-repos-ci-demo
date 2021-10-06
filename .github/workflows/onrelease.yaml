@@ -46,16 +46,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           branch: release
-      
-      - name: Bump Release
-        shell: bash
-        run: make bump-release-and-push
-
-      - name: Set variables
-        id: vars
-        run: |
-          echo ::set-output name=version::$(make version)
-          echo ::set-output name=modules::$(make list-modules-json)
 
       - name: Release Code to Production
         run: databricks repos update --path=/Repos/Production/databricks-repos-ci-demo --branch=${{ env.GITHUB_REF_SLUG }}
