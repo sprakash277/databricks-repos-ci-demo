@@ -42,7 +42,7 @@ jobs:
         run: pip install -U -r dev-requirements.txt
       
       - name: Bump version and push tag
-      	uses: TriPSs/conventional-changelog-action@master
+      	uses: TriPSs/conventional-changelog-action@v3
       	with:
         	GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         	git-message: 'release: {version}'
